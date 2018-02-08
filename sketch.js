@@ -4,7 +4,10 @@ var HEIGHT = 120;
 var K = 4;
 
 // Default function
-var functionStr = `// circle parameters
+var functionStr = `// clear the screen with white
+fillscreen(0b111);
+
+// circle parameters
 var x = 80;
 var y = 60;
 var radius = 40;
@@ -14,7 +17,7 @@ var offset_x = radius;
 var crit = 1 - radius;
 
 // fill with green color
-fill(0, 255, 0);
+setColor(0b001);
 
 // circle algorithm
 while (offset_y <= offset_x) {
@@ -63,16 +66,16 @@ function setup() {
 
 // Only update the canvas when mouse moves
 function mouseMoved() {
-    draw();
+    if (mouseActive()) {
+        draw();
+    }
 }
 
 // Forever loopding draw function
 function draw() {
-    background(0);
-    // drawCircle(80, 60, 40);
+    noStroke();
 
     // Draw shape
-    noStroke();
     drawShape();
 
     // Draw mouse cursor helper
@@ -80,17 +83,43 @@ function draw() {
     screenCoordToVGACoord(mouseX, mouseY);
 }
 
+function fillscreen(bitColor) {
+    if (bitColor == 0) background(0)
+    else if (bitColor == 1) background(0, 0, 255)
+    else if (bitColor == 2) background(0, 255, 0);
+    else if (bitColor == 3) background(0, 255, 255);
+    else if (bitColor == 4) background(255, 0, 0);
+    else if (bitColor == 5) background(255, 0, 255);
+    else if (bitColor == 6) background(255, 255, 0);
+    else if (bitColor == 7) background(255);
+}
+
+function setColor(bitColor) {
+    if (bitColor == 0) fill(0)
+    else if (bitColor == 1) fill(0, 0, 255)
+    else if (bitColor == 2) fill(0, 255, 0);
+    else if (bitColor == 3) fill(0, 255, 255);
+    else if (bitColor == 4) fill(255, 0, 0);
+    else if (bitColor == 5) fill(255, 0, 255);
+    else if (bitColor == 6) fill(255, 255, 0);
+    else if (bitColor == 7) fill(255);
+}
+
 function drawCursorHelper() {
-    if (
-        mouseX >= 0 &&
-        mouseX <= width &&
-        mouseY >= 0 &&
-        mouseY <= height
-    ) {
+    if (mouseActive()) {
         stroke(150);
         line(mouseX, 0, mouseX, height);
         line(0, mouseY, width, mouseY);
     }
+}
+
+function mouseActive() {
+    return (
+        mouseX >= 0 &&
+        mouseX <= width &&
+        mouseY >= 0 &&
+        mouseY <= height
+    );
 }
 
 function getShapeFunction() {
@@ -102,6 +131,7 @@ function pixel(x, y) {
 }
 
 function stext(msg, x, y) {
+    fill(0);
     text(msg, x * K, y * K);
 }
 

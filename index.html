@@ -11,12 +11,20 @@
 
     <!-- JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
     <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
     <script src="./codemirror/codemirror.js"></script>
     <script src="./codemirror/mode/javascript/javascript.js"></script>
     <script language="javascript" type="text/javascript" src="sketch.js"></script>
+    
+    <!-- Example -->
+    <script src="./example/circle.js"></script>
+    <script src="./example/fillscreen.js"></script>
+    <script src="./example/reuleaux.js"></script>
+    <script src="./example/mandelbrot.js"></script>
+    
     
     <!-- CSS -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
@@ -26,23 +34,15 @@
     <link rel="stylesheet" href="./codemirror/themes/monokai.css">
 </head>
 <style>
-    body {
-        font-family: "Open Sans", "Segoe UI", sans-serif;
-    }
-    #canvasContainer {
-        text-align: center;
-    }
-    #code-edit .CodeMirror {
-        border: 1px solid #CCC;
-    }
+    body { font-family: "Open Sans", "Segoe UI", sans-serif; }
+    #canvasContainer { text-align: center; }
+    #code-edit .CodeMirror { border: 1px solid #CCC; }
     .container { margin-top: 20px; }
-    .panel {
-        /* margin: 0.5em; */
-        padding: 0.5em;
-    }
+    .panel { padding: 0.5em; }
+    .pcanvas { border: 1px solid #CCC; }
 </style>
-<body style="background-color: #EEE">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a href="#" class="navbar-brand">VGACoreSim</a>
         <ul class="navbar-nav mr-auto">
             <li role="nav-item">
@@ -56,14 +56,25 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7 panel">
-                <h2>VGA Monitor</h2>
+                <h4>VGA Monitor</h4>
                 <div class="panel-in" id="canvasContainer"></div>
             </div>
             <div class="col-md-5 panel">
-                <h3>Options</h3>
+                <h4>Options</h4>
                 <div id="config" class="panel-in">
                     <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#VGA-resolution-modal">VGA Resolution</button>
                     <button id='request-draw' type="button" class="btn btn-sm btn-outline-primary">Draw!</button>
+
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" style="float:right">
+                        Examples
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" id="exampleFS" href="#">Fillscreen</a>
+                        <a class="dropdown-item" id="exampleC" href="#">Circle</a>
+                        <a class="dropdown-item" id="exampleRT" href="#">Reuleaux triangle</a>
+                        <a class="dropdown-item" id="exampleMB" href="#">Mandelbrot set</a>
+                    </div>
+
                     <hr>
                     <p>Write the drawing algorithm in JavaScript below. Hit 'Draw!' when ready.</p>
                 </div>
@@ -121,15 +132,40 @@ $(document).ready(function ($) {
         codeMirror = CodeMirror(document.getElementById("config"), {
             value: getShapeFunction(),
             mode: "javascript",
-            theme: "monokai",
+            // theme: "monokai",
             lineNumbers: true
         });
     }
 
     // Requets draw
     $('#request-draw').on('click', function() {
-        if (requestDraw != undefined) {
-            requestDraw(codeMirror.getValue());
+        if (requestDraw != undefined) { requestDraw(codeMirror.getValue()); }
+    });
+
+    // Examples
+    //  editor.getDoc().setValue   
+    $('#exampleFS').on('click', function() {
+        if (load_exampleFS != undefined) {
+            codeMirror.getDoc().setValue(load_exampleFS());
+            if (requestDraw != undefined) { requestDraw(codeMirror.getValue()); }
+        }
+    });
+    $('#exampleC').on('click', function() {
+        if (load_exampleC != undefined) {
+            codeMirror.getDoc().setValue(load_exampleC());
+            if (requestDraw != undefined) { requestDraw(codeMirror.getValue()); }
+        }
+    });
+    $('#exampleRT').on('click', function() {
+        if (load_exampleRT != undefined) {
+            codeMirror.getDoc().setValue(load_exampleRT());
+            if (requestDraw != undefined) { requestDraw(codeMirror.getValue()); }
+        }
+    });
+    $('#exampleMB').on('click', function() {
+        if (load_exampleMB != undefined) {
+            codeMirror.getDoc().setValue(load_exampleMB());
+            if (requestDraw != undefined) { requestDraw(codeMirror.getValue()); }
         }
     });
 });

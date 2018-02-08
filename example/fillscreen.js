@@ -1,4 +1,4 @@
-for (var i = 0; i < 160; i++) {
+fsFunc = `for (var i = 0; i < 160; i++) {
     for (var j = 0; j < 120; j++) {
         var n = i % 8;
         if (n == 0) fill(0, 0, 0);
@@ -11,4 +11,8 @@ for (var i = 0; i < 160; i++) {
         else if (n == 7) fill(255, 255, 255);
         pixel(i, j);
     }
+}`;
+
+function load_exampleFS() {
+    return fsFunc;
 }

@@ -1,4 +1,4 @@
-var iterations = 16;
+var mbFunc = `var iterations = 32;
 var maxDistSq = 16;
 
 var w = 4;
@@ -56,4 +56,8 @@ for (var j = 0; j < HEIGHT; j++) {
         x += dx;
     }
     y += dy;
+}`;
+
+function load_exampleMB() {
+    return mbFunc;
 }
