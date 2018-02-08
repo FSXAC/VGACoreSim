@@ -15,12 +15,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
     <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
+    <script src="codemirror/codemirror.js"></script>
+    <script src="codemirror/mode/javascript/javascript.js"></script>
     <script language="javascript" type="text/javascript" src="sketch.js"></script>
     
     <!-- CSS -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="codemirror/codemirror.css">
+    <link rel="stylesheet" href="codemirror/themes/monokai.css">
 </head>
 <style>
     body {
@@ -29,15 +33,13 @@
     #canvasContainer {
         text-align: center;
     }
+    #code-edit .CodeMirror {
+        border: 1px solid #CCC;
+    }
     .container { margin-top: 20px; }
     .panel {
         /* margin: 0.5em; */
         padding: 0.5em;
-    }
-    .panel-in {
-        border: 1px solid #CCC;
-        border-radius: 6px;
-        padding: 0.4em;
     }
 </style>
 <body style="background-color: #EEE">
@@ -51,19 +53,16 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 panel">
+            <div class="col-md-7 panel">
                 <h2>VGA Monitor</h2>
                 <div class="panel-in" id="canvasContainer"></div>
             </div>
-            <div class="col-md-4 panel">
-                <h2>Configuration</h2>
-                <div class="panel-in">
-                    <h3>Options</h3>
+            <div class="col-md-5 panel">
+                <h3>Options</h3>
+                <div id="config" class="panel-in">
                     <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#VGA-resolution-modal">VGA Resolution</button>
-                    <hr>
-                    <h3>Code</h3>
-                    <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#drawing-code-modal">Edit Drawing Code</button>
                     <button type="button" class="btn btn-sm btn-outline-primary">Draw!</button>
+                    <hr>
                 </div>
             </div>
         </div>
@@ -100,26 +99,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="drawing-code-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Drawing Code</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-sm btn-primary">Save Changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
 jQuery(document).ready(function ($) {
     // Bind signals
@@ -131,6 +110,16 @@ jQuery(document).ready(function ($) {
             setNewResolution(res);
         }
     });
+
+    // Codemirror code edit
+    if (getShapeFunction != undefined) {
+        var codeMirror = CodeMirror(document.getElementById("config"), {
+            value: getShapeFunction(),
+            mode: "javascript",
+            theme: "monokai",
+            lineNumbers: true
+        });
+    }
 });
 </script>
 
