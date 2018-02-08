@@ -1,9 +1,11 @@
+// default resolution
 var WIDTH = 160;
 var HEIGHT = 120;
 var K = 4;
 
-
-var functionStr = `var x = 80;
+// Default function
+var functionStr = `// circle parameters
+var x = 80;
 var y = 60;
 var radius = 40;
 
@@ -11,8 +13,10 @@ var offset_y = 0;
 var offset_x = radius;
 var crit = 1 - radius;
 
+// fill with green color
 fill(0, 255, 0);
 
+// circle algorithm
 while (offset_y <= offset_x) {
     pixel(x + offset_x, y + offset_y);
     pixel(x + offset_y, y + offset_x);
@@ -34,10 +38,8 @@ while (offset_y <= offset_x) {
 `;
 
 var drawShape;
-
 var vga_origin_x, vga_origin_y;
 var vga_width, vga_height;
-
 
 function setup() {
     // Set up VGA Canvas
