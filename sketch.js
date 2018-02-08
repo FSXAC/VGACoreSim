@@ -128,5 +128,6 @@ function setNewResolution(resMode) {
 
 function requestDraw(code) {
     functionStr = code;
-    setup();
+    drawShape = Function(functionStr);
+    draw();
 }
