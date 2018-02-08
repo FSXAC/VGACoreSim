@@ -45,7 +45,7 @@
         <a href="#" class="navbar-brand">VGACoreSim</a>
         <ul class="navbar-nav mr-auto">
             <li role="nav-item">
-                <a class="nav-link" href="/">Made with <3 by Muchen He</a></a>
+                <a class="nav-link" href="/">Made with &#x26A1; by Muchen He</a></a>
             </li>
         </ul>
     </nav>
@@ -86,11 +86,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <p>Select VGA core resolution: </p>
+                <select id="vga-resolution-select">
+                    <option value="0" selected>160x120</option>
+                    <option value="1">320x240</option>
+                </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-sm btn-primary">Save Changes</button>
+                <button id="save-vga-resolution" type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Save Changes</button>
             </div>
         </div>
     </div>
@@ -115,5 +119,19 @@
         </div>
     </div>
 </div>
+
+<script>
+jQuery(document).ready(function ($) {
+    // Bind signals
+    $('#save-vga-resolution').on('click', function() {
+        var sel = document.getElementById("vga-resolution-select");
+        var res = sel.options[sel.selectedIndex].value;
+        
+        if (setNewResolution != undefined) {
+            setNewResolution(res);
+        }
+    });
+});
+</script>
 
 </html>

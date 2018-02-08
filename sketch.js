@@ -1,6 +1,9 @@
 var WIDTH = 160;
 var HEIGHT = 120;
 var K = 4;
+// var K = 2;
+// var WIDTH = 320;
+// var HEIGHT = 240;
 
 var vga_origin_x, vga_origin_y;
 var vga_width, vga_height;
@@ -90,4 +93,18 @@ function screenCoordToVGACoord(x, y) {
     var rel_y = Math.floor(y / K);
     fill(255);
     stext(rel_x + ", " + rel_y, rel_x, rel_y);
+}
+
+function setNewResolution(resMode) {
+    if (resMode == 0) {
+        K = 4;
+        WIDTH = 160;
+        HEIGHT = 120;
+        setup();
+    } else {
+        K = 2;
+        WIDTH = 320;
+        HEIGHT = 240;
+        setup();
+    }
 }
