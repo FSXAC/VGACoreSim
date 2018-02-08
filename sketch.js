@@ -1,12 +1,43 @@
 var WIDTH = 160;
 var HEIGHT = 120;
 var K = 4;
-// var K = 2;
-// var WIDTH = 320;
-// var HEIGHT = 240;
+
+
+var functionStr = `var x = 80;
+var y = 60;
+var radius = 40;
+
+var offset_y = 0;
+var offset_x = radius;
+var crit = 1 - radius;
+
+fill(0, 255, 0);
+
+while (offset_y <= offset_x) {
+    pixel(x + offset_x, y + offset_y);
+    pixel(x + offset_y, y + offset_x);
+    pixel(x - offset_x, y + offset_y);
+    pixel(x - offset_y, y + offset_x);
+    pixel(x - offset_x, y - offset_y);
+    pixel(x - offset_y, y - offset_x);
+    pixel(x + offset_x, y - offset_y);
+    pixel(x + offset_y, y - offset_x);
+
+    offset_y++;
+    if (crit <= 0) {
+        crit = crit + 2 * offset_y + 1;
+    } else {
+        offset_x--;
+        crit = crit + 2 * (offset_y - offset_x) + 1;
+    }
+}
+`;
+
+var drawShape;
 
 var vga_origin_x, vga_origin_y;
 var vga_width, vga_height;
+
 
 function setup() {
     // Set up VGA Canvas
@@ -23,6 +54,9 @@ function setup() {
 
     // Clear screen
     background(0);
+
+    // Create default draw shape function
+    drawShape = Function(functionStr);
 }
 
 // Only update the canvas when mouse moves
@@ -30,9 +64,14 @@ function mouseMoved() {
     draw();
 }
 
+// Forever loopding draw function
 function draw() {
     background(0);
-    drawCircle(80, 60, 40);
+    // drawCircle(80, 60, 40);
+
+    // Draw shape
+    noStroke();
+    drawShape();
 
     // Draw mouse cursor helper
     drawCursorHelper();
@@ -52,70 +91,11 @@ function drawCursorHelper() {
     }
 }
 
-function drawCircle(x, y, radius) {
-    var offset_y = 0;
-    var offset_x = radius;
-    var crit = 1 - radius;
-
-    fill(0, 255, 0);
-    noStroke();
-
-    while (offset_y <= offset_x) {
-        spixel(x + offset_x, y + offset_y);
-        spixel(x + offset_y, y + offset_x);
-        spixel(x - offset_x, y + offset_y);
-        spixel(x - offset_y, y + offset_x);
-        spixel(x - offset_x, y - offset_y);
-        spixel(x - offset_y, y - offset_x);
-        spixel(x + offset_x, y - offset_y);
-        spixel(x + offset_y, y - offset_x);
-
-        offset_y++;
-        if (crit <= 0) {
-            crit = crit + 2 * offset_y + 1;
-        } else {
-            offset_x--;
-            crit = crit + 2 * (offset_y - offset_x) + 1;
-        }
-    }
-}
-
-var functionStr = `var x = 80;
-var y = 60;
-var radius = 40;
-
-var offset_y = 0;
-var offset_x = radius;
-var crit = 1 - radius;
-
-fill(0, 255, 0);
-noStroke();
-
-while (offset_y <= offset_x) {
-    spixel(x + offset_x, y + offset_y);
-    spixel(x + offset_y, y + offset_x);
-    spixel(x - offset_x, y + offset_y);
-    spixel(x - offset_y, y + offset_x);
-    spixel(x - offset_x, y - offset_y);
-    spixel(x - offset_y, y - offset_x);
-    spixel(x + offset_x, y - offset_y);
-    spixel(x + offset_y, y - offset_x);
-
-    offset_y++;
-    if (crit <= 0) {
-        crit = crit + 2 * offset_y + 1;
-    } else {
-        offset_x--;
-        crit = crit + 2 * (offset_y - offset_x) + 1;
-    }
-}
-`
-
 function getShapeFunction() {
     return functionStr;
 }
 
-function spixel(x, y) {
+function pixel(x, y) {
     rect(x * K, y * K, K, K);
 }
 
@@ -142,4 +122,9 @@ function setNewResolution(resMode) {
         HEIGHT = 240;
         setup();
     }
+}
+
+function requestDraw(code) {
+    functionStr = code;
+    setup();
 }
