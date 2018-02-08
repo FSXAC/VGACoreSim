@@ -1,6 +1,6 @@
 var WIDTH = 160;
 var HEIGHT = 120;
-var K = 5;
+var K = 4;
 
 var vga_origin_x, vga_origin_y;
 var vga_width, vga_height;
@@ -13,6 +13,7 @@ function setup() {
     // DOM canvas
     canvas = createCanvas(vga_width, vga_height);
     canvas.class("pcanvas");
+    canvas.parent('canvasContainer');
 
     // Don't automatically draw
     noLoop();

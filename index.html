@@ -25,9 +25,9 @@
     </script>
 </head>
 <style>
-    .pcanvas { z-index: -1; }
+    #canvasContainer { text-align: center; }
 </style>
-<body>
+<body style="background-color: #EEE">
     <nav class="navbar navbar-default">
         <div class="navbar-header">
             <a class="navbar-brand">VGACoreSim</a>
@@ -38,5 +38,21 @@
             </li>
         </ul>
     </nav>
+    <div class="container">
+        <div id="canvasContainer">
+            <div class="row" style="margin-bottom: 1em">
+                <a class="btn btn-default">VGA Resolution</a>
+                <a class="btn btn-default">Canvas Size</a>
+                <a class="btn btn-warning">Edit Drawing Script</a>
+                <a class="btn btn-primary">Draw!</a>
+            </div>
+        </div>
+        <footer style="text-align:center">
+            <small>
+                This work is licensed under a
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+            </small>
+        </footer>
+    </div>
 </body>
 </html>
